@@ -1,0 +1,13 @@
+struct Adding(
+    let a
+    let b
+)
+MrviVar adding = Adding()
+adding.a = 1
+adding.b = 4
+MrviFn add{{a,b}}(
+    MrviReturn a+b+5
+)
+add(adding.a,adding.b)
+
+
