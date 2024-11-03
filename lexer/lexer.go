@@ -63,3 +63,16 @@ func (l *Lexer) NextToken() token.Token {
 func newToken[T []byte | byte](tokenType token.TokenType, ch T) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 }
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+}
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
+}
+func (l *Lexer) readIdentifier() string {
+	position := l.position
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `MrviFn{}`
+	input := `MrviFn{}=`
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
