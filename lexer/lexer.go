@@ -52,10 +52,27 @@ func (l *Lexer) NextToken() token.Token {
 			for i := 0; i < 5; i++ {
 				l.readChar()
 			}
+		} else if mrvifn == "MrviRe" {
+			tok = token.Token{Type: token.Return, Literal: "MrviReturn"}
+			for i := 0; i < 9; i++ {
+				l.readChar()
+			}
 		}
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
+	default: // if the character is not a special character
+		if isDigit(l.ch) {
+			tok.Literal = l.readNumber()
+			tok.Type = token.Int
+			return tok
+		} else if isLetter(l.ch) {
+			tok.Literal = l.readIdentifier()
+			tok.Type = token.Identifiers
+			return tok
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
 	}
 	l.readChar()
 	return tok
@@ -72,6 +89,13 @@ func isDigit(ch byte) bool {
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+func (l *Lexer) readNumber() string {
+	position := l.position
+	for isDigit(l.ch) {
 		l.readChar()
 	}
 	return l.input[position:l.position]
